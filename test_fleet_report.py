@@ -1,4 +1,3 @@
-# test_fleet_report.py
 from fleet_report import fleet_summary
 
 SAMPLE = [
@@ -12,5 +11,10 @@ def test_summary_counts_due_cars():
     assert fleet_summary(SAMPLE)["due"] == 1
 
 
-# TODO(you): with IBM Bob, ADD a test that fleet_summary does NOT crash when a car has no
-# "last_service_km" reading (like VOS-7788 in fleet_sample.json). It crashes today. Make it pass.
+def test_summary_handles_missing_last_service_reading():
+    fleet = SAMPLE + [{"id": "VOS-7788", "odometer": 92000}]
+
+    summary = fleet_summary(fleet)
+
+    assert summary["count"] == 3
+    assert summary["due"] == 1
