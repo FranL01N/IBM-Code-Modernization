@@ -18,3 +18,5 @@ def test_summary_handles_missing_last_service_reading():
 
     assert summary["count"] == 3
     assert summary["due"] == 1
+    # The missing reading is ignored in the wear average instead of crashing or acting as zero.
+    assert abs(summary["average_wear"] - 61.0) < 1e-9
